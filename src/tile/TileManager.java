@@ -11,8 +11,8 @@ import java.io.InputStreamReader;
 
 public class TileManager {
     GamePanel gp;
-    Tile[] tile;
-    int mapTileNum[][];
+   public Tile[] tile;
+    public int mapTileNum[][];
 
 
     public TileManager(GamePanel gp) {
@@ -26,12 +26,31 @@ public class TileManager {
         try{
             tile[0] = new Tile();
             tile[0].image = ImageIO.read(getClass().getResource("/tiles/ground.png"));
+            tile[0].collision = false;
 
             tile[1] = new Tile();
             tile[1].image = ImageIO.read(getClass().getResource("/tiles/wall.png"));
+            tile[1].collision = true;
 
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(getClass().getResource("/tiles/poison.png"));
+            tile[2].collision = false;
+
+            tile[3] = new Tile();
+            tile[3].image = ImageIO.read(getClass().getResource("/tiles/key.png"));
+            tile[3].collision = false;
+
+            tile[4] = new Tile();
+            tile[4].image = ImageIO.read(getClass().getResource("/tiles/door_locked.png"));
+            tile[4].collision = true;
+
+            tile[5] = new Tile();
+            tile[5].image = ImageIO.read(getClass().getResource("/tiles/door_unlocked.png"));
+            tile[5].collision = false;
+
+            tile[6] = new Tile();
+            tile[6].image = ImageIO.read(getClass().getResource("/tiles/exit.png"));
+            tile[6].collision = false;
         }
         catch(IOException e){
             e.printStackTrace();
@@ -56,6 +75,7 @@ public class TileManager {
                     row++;
                 }
             }
+            br.close();
         }
         catch (Exception e){
             e.printStackTrace();

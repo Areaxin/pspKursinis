@@ -16,10 +16,12 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenHeight = tileSize * maxScreenRow;//576 pixeliai
     int FPS = 60;
 
-    TileManager tm = new TileManager(this);
+    public TileManager tm = new TileManager(this);
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
     Player player = new Player(this,keyHandler);
+    FogOfWar fogOfWar = new FogOfWar(this);
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
 
 
     public GamePanel() {
@@ -63,13 +65,22 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void Update(){
+        if(keyHandler.restartPressed) {
+            restartGame();
+        }
         player.update();
     }
+    public void restartGame() {
+        player.setDefaultValues();
+        tm.loadMap("/maps/map0.txt");
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         tm.draw(g2);
         player.draw(g2);
-        g2.dispose();//pagerins memory
+        fogOfWar.draw(g2, player.x, player.y);
+        g2.dispose();
     }
 }

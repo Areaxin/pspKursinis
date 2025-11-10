@@ -9,6 +9,7 @@ public class KeyHandler implements KeyListener {
 
     }
     public boolean upPressed,downPressed,leftPressed,rightPressed;
+    public boolean restartPressed = false;
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -25,6 +26,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
+        }
+        if (code == KeyEvent.VK_R) {
+            restartPressed = true;
         }
     }
 
@@ -43,6 +47,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
+        }
+        if (code == KeyEvent.VK_R) {
+            restartPressed = false;
         }
     }
 }

@@ -8,4 +8,5 @@ public class Entity {
 
     public BufferedImage up1, up2;
     public String direction;
+    public boolean collisionOn = false;
 }
