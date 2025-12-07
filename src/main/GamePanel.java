@@ -5,6 +5,7 @@ import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel implements Runnable {
     final int originalTileSize = 16;//16x16
@@ -21,6 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyHandler = new KeyHandler();
     Player player = new Player(this,keyHandler);
     FogOfWar fogOfWar = new FogOfWar(this);
+    public ObstacleManager obstacleManager = new ObstacleManager(this);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
 
 
@@ -30,6 +32,11 @@ public class GamePanel extends JPanel implements Runnable {
         // this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+        obstacleManager.loadObstaclesFromMap(tm.mapTileNum, maxScreenCol, maxScreenRow);
+        setupKeyBindings();
+    }
+    private void setupKeyBindings() {
+        keyHandler.bindKey(KeyEvent.VK_R, new RestartCommand(this));
     }
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -69,16 +76,19 @@ public class GamePanel extends JPanel implements Runnable {
             restartGame();
         }
         player.update();
+        obstacleManager.checkInteractions(player);
     }
     public void restartGame() {
         player.setDefaultValues();
         tm.loadMap("/maps/map0.txt");
+        obstacleManager.loadObstaclesFromMap(tm.mapTileNum, maxScreenCol, maxScreenRow);
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         tm.draw(g2);
+        //obstacleManager.draw(g2);
         player.draw(g2);
         fogOfWar.draw(g2, player.x, player.y);
         g2.dispose();

@@ -5,15 +5,14 @@ import main.KeyHandler;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyHandler;
-    public int keys = 0;
-    public boolean alive = true;
-    public boolean won = false;
+    private int keys = 0;
+    private boolean alive = true;
+    private boolean won = false;
 
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
@@ -62,8 +61,6 @@ public class Player extends Entity {
             else if(keyHandler.rightPressed){
                 direction = "right";
             }
-            checkDoorInteraction();
-
             //tikriname koliziją pries judant
             collisionOn = gp.collisionChecker.checkTile(this, direction);
 
@@ -85,78 +82,6 @@ public class Player extends Entity {
             }
         }
 
-        //tikriname interakciją kiekviena frame
-        checkTileInteraction();
-    }
-
-
-    public void checkDoorInteraction() {
-        int playerCenterX = x + gp.tileSize / 2;
-        int playerCenterY = y + gp.tileSize / 2;
-
-        int col = playerCenterX / gp.tileSize;
-        int row = playerCenterY / gp.tileSize;
-
-        int nextCol = col;
-        int nextRow = row;
-
-        switch(direction) {
-            case "up":
-                nextRow = (playerCenterY - gp.tileSize/2 - speed) / gp.tileSize;
-                break;
-            case "down":
-                nextRow = (playerCenterY + gp.tileSize/2 + speed) / gp.tileSize;
-                break;
-            case "left":
-                nextCol = (playerCenterX - gp.tileSize/2 - speed) / gp.tileSize;
-                break;
-            case "right":
-                nextCol = (playerCenterX + gp.tileSize/2 + speed) / gp.tileSize;
-                break;
-        }
-
-        // ar nesame uz ribu
-        if(nextCol < 0 || nextCol >= gp.maxScreenCol || nextRow < 0 || nextRow >= gp.maxScreenRow) {
-            return;
-        }
-
-        int nextTileNum = gp.tm.mapTileNum[nextCol][nextRow];
-
-        //jei uzrakintos durys ir turim rakta
-        if(nextTileNum == 4 && keys > 0) {
-            keys--;
-            gp.tm.mapTileNum[nextCol][nextRow] = 5;
-            gp.tm.tile[5].collision = false;
-        }
-    }
-
-    public void checkTileInteraction() {
-
-        int playerCenterX = x + gp.tileSize / 2;
-        int playerCenterY = y + gp.tileSize / 2;
-
-        int col = playerCenterX / gp.tileSize;
-        int row = playerCenterY / gp.tileSize;
-
-        if(col < 0 || col >= gp.maxScreenCol || row < 0 || row >= gp.maxScreenRow) {
-            return;
-        }
-
-        int tileNum = gp.tm.mapTileNum[col][row];
-
-        if(tileNum == 2 && alive) {
-            alive = false;
-
-        }
-        if(tileNum == 3) {
-            keys++;
-            gp.tm.mapTileNum[col][row] = 0;
-        }
-
-        if(tileNum == 6 && !won) {
-            won = true;
-            System.out.println("you escaped the cave");
-        }
     }
         public void draw(Graphics2D g2) {
             //g2.setColor(Color.WHITE);
@@ -216,4 +141,34 @@ public class Player extends Entity {
             }
 
         }
+
+    public int getKeys() {
+        return keys;
+    }
+
+    public void addKey() {
+        keys++;
+    }
+
+    public void useKey() {
+        if (keys > 0) {
+            keys--;
+        }
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public boolean hasWon() {
+        return won;
+    }
+
+    public void setWon(boolean won) {
+        this.won = won;
+    }
 }

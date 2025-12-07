@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class FogOfWar {
     GamePanel gp;
-    private int visionRange = 1;
+    private int visionRange = 2;
 
     public FogOfWar(GamePanel gp) {
         this.gp = gp;
