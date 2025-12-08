@@ -43,8 +43,6 @@ public class ObstacleManager {
         }
     }
 
-    // polimirfizmas
-    // Tikrina saveika su zaideju
     public void checkInteractions(Player player) {
 
         int playerCenterX = player.x + gp.tileSize / 2;
@@ -52,18 +50,17 @@ public class ObstacleManager {
         int playerCol = playerCenterX / gp.tileSize;
         int playerRow = playerCenterY / gp.tileSize;
 
-        // Tikrina tile kur žaidėjas YRA
         for (Obstacle obstacle : obstacles) {
             if (obstacle.getX() == playerCol && obstacle.getY() == playerRow) {
                 obstacle.interact(player);
             }
         }
 
-        //Tikrina tile PRIEŠAIS žaidėją (durims atrakinti)
+      //check door
         checkAdjacentTile(player, playerCol, playerRow);
     }
 
-    // NAUJAS metodas - tikrina tile priešais žaidėją
+    //check i ateiti
     private void checkAdjacentTile(Player player, int currentCol, int currentRow) {
         int adjacentCol = currentCol;
         int adjacentRow = currentRow;
@@ -100,7 +97,7 @@ public class ObstacleManager {
     }
 
     public boolean isBlocking(int col, int row) {
-        // polimofrizmas
+
         for (Obstacle obstacle : obstacles) {
             if (obstacle.getX() == col && obstacle.getY() == row) {
                 if (obstacle.isBlocking()) {
@@ -111,13 +108,5 @@ public class ObstacleManager {
         return false;
     }
 
-    //p
-    public void draw(Graphics2D g2) {
-        for (Obstacle obstacle : obstacles) {
-            obstacle.draw(g2, gp.tileSize);
-        }
-    }
-    public List<Obstacle> getObstacles() {
-        return obstacles;
-    }
+
 }

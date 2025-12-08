@@ -8,16 +8,16 @@ public class ObstacleFactory {
     }
     public Obstacle createObstacle(int tileType, int x, int y) {
         switch (tileType) {
-            case 2: // spąstai
+            case 2:
                 return new TrapObstacle(x, y);
-            case 3: // raktas
+            case 3:
                 return new KeyObstacle(x, y, gp);
-            case 4: // durys
+            case 4:
                 return new DoorObstacle(x, y, gp);
-            case 6: // išėjimas
+            case 6:
                 return new ExitObstacle(x, y);
             default:
-                return null; // jei nezinomas tipas
+                return null;
         }
     }
 }

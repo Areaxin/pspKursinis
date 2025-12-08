@@ -156,16 +156,8 @@ public class Player extends Entity {
         }
     }
 
-    public boolean isAlive() {
-        return alive;
-    }
-
     public void setAlive(boolean alive) {
         this.alive = alive;
-    }
-
-    public boolean hasWon() {
-        return won;
     }
 
     public void setWon(boolean won) {
